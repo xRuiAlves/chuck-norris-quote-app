@@ -15,6 +15,7 @@ def print_help
     puts "\nUSAGE"
     puts "\t-h, --help\tprints cli help"
     puts "\t-v, --version\tprints version information"
+    puts "\t-q, --quote\tprints random chuck norris quote"
 end
 
 
@@ -35,6 +36,13 @@ def parse_args
         print_help()
     when "-v", "--version"
         print_version()
+    when "-q", "--quote"
+        begin
+            puts get_random_quote()
+        rescue ChuckFailedUs
+            STDERR.puts "Failed to fetch quote"
+            exit 2
+        end
     else
         bad_arguments()
     end
