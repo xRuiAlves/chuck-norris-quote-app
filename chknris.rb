@@ -13,9 +13,11 @@ def print_help
     print_version()
 
     puts "\nUSAGE"
+    puts "\tchknris [FLAGS]"
+
+    puts "\nFLAGS"
     puts "\t-h, --help\tprints cli help"
     puts "\t-v, --version\tprints version information"
-    puts "\t-q, --quote\tprints random chuck norris quote"
     puts "\t-l, --list\tlists chuck norris quotes categories"
 end
 
@@ -37,13 +39,6 @@ def parse_args
         print_help()
     when "-v", "--version"
         print_version()
-    when "-q", "--quote"
-        begin
-            puts get_random_quote()
-        rescue ChuckFailedUs
-            STDERR.puts "Failed to fetch quote"
-            exit 2
-        end
     when "-l", "--list"
         begin
             for category in get_quote_categories()
@@ -54,6 +49,7 @@ def parse_args
             exit 2
         end
     else
+        STDERR.puts "Invalid flag \"#{ARGV[0]}\"\n\n"
         bad_arguments()
     end
 end
@@ -78,8 +74,15 @@ end
 
 
 if ARGV.length == 0
-    bad_arguments()
+    begin
+        puts get_random_quote()
+    rescue ChuckFailedUs
+        STDERR.puts "Failed to fetch quote"
+        exit 2
+    end
+else
+    parse_args()
 end
 
 
-parse_args()
+
