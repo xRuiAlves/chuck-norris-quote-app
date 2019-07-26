@@ -16,6 +16,7 @@ def print_help
     puts "\t-h, --help\tprints cli help"
     puts "\t-v, --version\tprints version information"
     puts "\t-q, --quote\tprints random chuck norris quote"
+    puts "\t-l, --list\tlists chuck norris quotes categories"
 end
 
 
@@ -43,6 +44,15 @@ def parse_args
             STDERR.puts "Failed to fetch quote"
             exit 2
         end
+    when "-l", "--list"
+        begin
+            for category in get_quote_categories()
+                puts category
+            end
+        rescue ChuckFailedUs
+            STDERR.puts "Failed to fetch quote categories list"
+            exit 2
+        end
     else
         bad_arguments()
     end
@@ -55,6 +65,15 @@ def get_random_quote
         raise ChuckFailedUs
     end
     JSON.parse(res.body)["value"]
+end
+
+
+def get_quote_categories
+    res = Net::HTTP.get_response(URI('https://api.chucknorris.io/jokes/categories'))
+    if res.code != "200"
+        raise ChuckFailedUs
+    end
+    JSON.parse(res.body)
 end
 
 
