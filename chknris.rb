@@ -1,4 +1,10 @@
+require 'net/http'
+require 'json'
+
 $version = "1.0"
+
+
+class ChuckFailedUs < StandardError; end
 
 
 def print_help
@@ -32,6 +38,15 @@ def parse_args
     else
         bad_arguments()
     end
+end
+
+
+def get_random_quote
+    res = Net::HTTP.get_response(URI('https://api.chucknorris.io/jokes/random'))
+    if res.code != "200"
+        raise ChuckFailedUs
+    end
+    JSON.parse(res.body)["value"]
 end
 
 
