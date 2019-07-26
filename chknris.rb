@@ -9,7 +9,7 @@ class ChuckIsOblivious < StandardError; end
 
 
 def print_help
-    puts "Chuck Norris quotes cli app"
+    puts "Chuck Norris quotes app"
     print "version: "
     print_version()
 
@@ -17,7 +17,7 @@ def print_help
     puts "\tchknris [FLAGS]"
 
     puts "\nFLAGS"
-    puts "\t-h, --help\tprints cli help"
+    puts "\t-h, --help\tprints help"
     puts "\t-v, --version\tprints version information"
     puts "\t-l, --list\tlists chuck norris quotes categories"
     puts "\t-c, --category\tspecify chuck norris quote category"
